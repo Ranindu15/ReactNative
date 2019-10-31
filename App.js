@@ -1,114 +1,70 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, {Component} from 'react';
+import {StyleSheet, Text, Button, View} from 'react-native';
 
-import React, { Component } from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  Button,
-  TextInput,
-  StatusBar,
-} from 'react-native';
-
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-class App extends Component {
-  constructor () {
-    super()
-    this.state = { }
-    this.buttonPressed = this.buttonPressed.bind(this)
+export default class App extends Component {
+  constructor() {
+    super();
+    this.state = {};
   }
-buttonPressed() {
-  console.log(this.state.username , this.state.password)
-  
-}
-render() {
-  return (
-    <>
-      <StatusBar barStyle= "dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.result} />
+        <View style={styles.calculation} />
+        <View style={styles.buttons}>
+          <View style={styles.numbers}>
+            <View style={styles.row}>
+              <Button title="0" />
+              <Button title="0" />
+              <Button title="0" />
             </View>
-          )}
-          <View style={styles.body}>
-            <Text style={styles.sectionContainer} >User Name</Text>
-            <TextInput 
-              defaultValue = {this.state.username}
-              onChangeText = {text => {this.setState({username:text})}}
-            />
+            <View style={styles.row}>
+              <Button title="0" />
+              <Button title="0" />
+              <Button title="0" />
+            </View>
+            <View style={styles.row}>
+              <Button title="0" />
+              <Button title="0" />
+              <Button title="0" />
+            </View>
           </View>
-            
-          <View style={styles.body}>
-            <Text style={styles.sectionContainer} >Password</Text>
-            <TextInput 
-              defaultValue = {this.state.password}
-              onChangeText = {text => {this.setState({password: text})}}
-            />
-          </View>
-          <Button title={"Hello"} onPress ={this.buttonPressed}/>
-        </ScrollView>
-      </SafeAreaView>
-      </>
-  );
-};
+          <View style={styles.operation} />
+        </View>
+      </View>
+    );
+  }
 }
+
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
+  container: {
+    flex: 1,
   },
-  engine: {
-    position: 'absolute',
-    right: 0,
+  row: {
+    flexDirection: 'row',
+    flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
-  body: {
-    backgroundColor: Colors.white,
+  result: {
+    flex: 2,
+    backgroundColor: 'red',
   },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 75,
+  calculation: {
+    flex: 1,
+    backgroundColor: 'green',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
+  buttons: {
+    flexGrow: 7,
+    flexDirection: 'row',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
+  numbers: {
+    flex: 3,
+    backgroundColor: 'yellow',
   },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
+  operation: {
+    flex: 1,
+    backgroundColor: 'black',
   },
 });
-
-export default App;
