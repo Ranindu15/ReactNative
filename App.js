@@ -4,7 +4,40 @@ import {StyleSheet, Text, TouchableOpacity, Button, View} from 'react-native';
 export default class App extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {resultText: ''};
+    this.operations = ['DEL', '+', '-', '*', '/'];
+  }
+  calculateResult() {
+    const text = this.state.resultText;
+  }
+  buttonPressed(text) {
+    if (text === '=') {
+      return this.calculateResult();
+    }
+    this.setState({
+      resultText: this.state.resultText + text,
+    });
+  }
+  operate(operation) {
+    switch (operation) {
+      case 'DEL':
+        let text = this.state.resultText.split('')
+        text.pop()
+        this.setState({
+          resultText: text.join(''),
+        })
+        break
+      case '+':
+      case '-':
+      case '*':
+        const lastChar = this.state.resultText.split('').pop()
+            if(operation.indexOf(lastChar) > 0) {
+            }
+            if (this.state.text == "") return
+            this.setState({
+              resultText: this.state.resultText + operation
+            })
+    }
   }
 
   render() {
@@ -14,7 +47,9 @@ export default class App extends Component {
       let row = []
       for (let j = 0; j < 3; j++) {
         row.push(
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            onPress={() => this.buttonPressed(nums[i][j])}
+            style={styles.btn}>
             <Text style={styles.btnNext}>{nums[i][j]}</Text>
           </TouchableOpacity>,
         );
@@ -22,13 +57,14 @@ export default class App extends Component {
       rows.push(<View style={styles.row}>{row}</View>);
     }
 
-    let operations = ['+', '-', '*', '/']
     let ops = []
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       ops.push(
-        <TouchableOpacity style={styles.btn}>
+        <TouchableOpacity
+          onPress={() => this.operate(this.operations[i])}
+          style={styles.btn}>
           <Text style={[styles.btnNext, styles.whiteText]}>
-            {operations[i]}
+            {this.operations[i]}
           </Text>
         </TouchableOpacity>,
       );
@@ -37,7 +73,7 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.result}>
-          <Text style={styles.resultText}>8*8</Text>
+          <Text style={styles.resultText}>{this.state.resultText}</Text>
         </View>
         <View style={styles.calculation}>
           <Text style={styles.calText}>64</Text>
