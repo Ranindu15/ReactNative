@@ -4,15 +4,32 @@ import {StyleSheet, Text, TouchableOpacity, Button, View} from 'react-native';
 export default class App extends Component {
   constructor() {
     super();
-    this.state = {resultText: ''};
+    this.state = {resultText: '', calculationText: ''};
     this.operations = ['DEL', '+', '-', '*', '/'];
   }
   calculateResult() {
     const text = this.state.resultText;
+    // eslint-disable-next-line no-eval
+    console.log(text, eval(text))
+    this.setState({
+      // eslint-disable-next-line no-eval
+      calculationText: eval(text),
+    });
+  }
+  validate() {
+    const text = this.state.resultText
+    switch (text.slice(-1)) {
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+        return false;
+    }
+    return true;
   }
   buttonPressed(text) {
     if (text === '=') {
-      return this.calculateResult();
+      return this.validate() && this.calculateResult();
     }
     this.setState({
       resultText: this.state.resultText + text,
@@ -21,30 +38,35 @@ export default class App extends Component {
   operate(operation) {
     switch (operation) {
       case 'DEL':
-        let text = this.state.resultText.split('')
-        text.pop()
+        console.log(this.state.resultText)
+        let text = this.state.resultText.split('');
+        text.pop();
         this.setState({
           resultText: text.join(''),
-        })
+        });
         break
       case '+':
       case '-':
       case '*':
-        const lastChar = this.state.resultText.split('').pop()
-            if(operation.indexOf(lastChar) > 0) {
-            }
-            if (this.state.text == "") return
-            this.setState({
-              resultText: this.state.resultText + operation
-            })
+      case '/':
+        const lastChar = this.state.resultText.split('').pop();
+        if (this.operations.indexOf(lastChar) > 0) {
+          return;
+        }
+        if (this.state.text == '') {
+          return;
+        }
+        this.setState({
+          resultText: this.state.resultText + operation,
+        });
     }
   }
 
   render() {
-    let rows = []
+    let rows = [];
     let nums = [[1, 2, 3], [4, 5, 6], [7, 8, 9], ['.', 0, '=']];
     for (let i = 0; i < 4; i++) {
-      let row = []
+      let row = [];
       for (let j = 0; j < 3; j++) {
         row.push(
           <TouchableOpacity
@@ -57,7 +79,7 @@ export default class App extends Component {
       rows.push(<View style={styles.row}>{row}</View>);
     }
 
-    let ops = []
+    let ops = [];
     for (let i = 0; i < 5; i++) {
       ops.push(
         <TouchableOpacity
@@ -76,7 +98,7 @@ export default class App extends Component {
           <Text style={styles.resultText}>{this.state.resultText}</Text>
         </View>
         <View style={styles.calculation}>
-          <Text style={styles.calText}>64</Text>
+          <Text style={styles.calText}>{this.state.calculationText}</Text>
         </View>
         <View style={styles.buttons}>
           <View style={styles.numbers}>{rows}</View>
