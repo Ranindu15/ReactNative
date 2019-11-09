@@ -70,19 +70,25 @@ export default class App extends Component {
       for (let j = 0; j < 3; j++) {
         row.push(
           <TouchableOpacity
+            key={nums[i][j]}
             onPress={() => this.buttonPressed(nums[i][j])}
             style={styles.btn}>
             <Text style={styles.btnNext}>{nums[i][j]}</Text>
           </TouchableOpacity>,
         );
       }
-      rows.push(<View style={styles.row}>{row}</View>);
+      rows.push(
+        <View key={i} style={styles.row}>
+          {row}
+        </View>,
+      );
     }
 
     let ops = [];
     for (let i = 0; i < 5; i++) {
       ops.push(
         <TouchableOpacity
+          key={this.operations[i]}
           onPress={() => this.operate(this.operations[i])}
           style={styles.btn}>
           <Text style={[styles.btnNext, styles.whiteText]}>
@@ -115,6 +121,7 @@ const styles = StyleSheet.create({
   },
   btnNext: {
     fontSize: 30,
+    color: 'white',
   },
   whiteText: {
     color: 'white',
@@ -156,11 +163,11 @@ const styles = StyleSheet.create({
   },
   numbers: {
     flex: 3,
-    backgroundColor: 'yellow',
+    backgroundColor: '#434343',
   },
   operation: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: '#636363',
     justifyContent: 'space-around',
     alignItems: 'stretch',
   },
